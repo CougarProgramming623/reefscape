@@ -11,7 +11,10 @@ import static edu.wpi.first.units.Units.Volts;
 
 import java.io.File;
 import java.util.List;
+import java.util.Vector;
 import java.util.function.DoubleSupplier;
+
+import org.dyn4j.geometry.Vector2;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -28,6 +31,7 @@ import com.pathplanner.lib.path.Waypoint;
 import com.pathplanner.lib.path.*;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -48,6 +52,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.AT;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import swervelib.SwerveDrive;
@@ -460,6 +465,20 @@ public class Drivetrain extends SubsystemBase {
       }
     }
 
+  }
+
+  public double findAngleRad(Pose2d center, Pose2d b) {
+    Vector2 ca = new Vector2(m_poseEstimator.getEstimatedPosition().getX() - center.getX(),
+        m_poseEstimator.getEstimatedPosition().getY() - center.getY());
+    Vector2 cb = new Vector2(b.getX() - center.getX(), b.getY() - center.getY());
+    double dotProduct = ca.dot(cb);
+    double caMag = ca.getMagnitude();
+    double cbMag = cb.getMagnitude();
+    return Math.acos(dotProduct / (caMag * cbMag));
+  }
+
+  public Pose2d findB(AT aprilTag){
+    return new Pose2d((aprilTag.getX() + Math.cos(aprilTag.getTheta().getRadians())), (aprilTag.getX() + Math.cos(aprilTag.getTheta().getRadians())), aprilTag.getRobotTheta());
   }
 
   // if (autoWorks) {
