@@ -31,27 +31,27 @@ public class MoveToPose extends Command {
 
   @Override
   public void initialize() {
-    SmartDashboard.putNumber("currentx", m_drivetrain.getX());
-    SmartDashboard.putNumber("currenty", m_drivetrain.getY());
+    SmartDashboard.putNumber("currentx", m_drivetrain.getPose().getX());
+    SmartDashboard.putNumber("currenty", m_drivetrain.getPose().getY());
     SmartDashboard.putNumber("targetx", targetPose.getX());
     SmartDashboard.putNumber("targety", targetPose.getY());
   }
 
   @Override
   public void execute() {
-    m_drivetrain.updateOdometry();
-    xSpeed = xController.calculate(m_drivetrain.getX(), targetPose.getX());
-    ySpeed = yController.calculate(m_drivetrain.getY(), targetPose.getY());
-    thetaSpeed = thetaController.calculate(m_drivetrain.getRotation().getRadians(),
+    xSpeed = xController.calculate(m_drivetrain.getPose().getX(), targetPose.getX());
+    ySpeed = yController.calculate(m_drivetrain.getPose().getY(), targetPose.getY());
+    thetaSpeed = thetaController.calculate(m_drivetrain.getPose().getRotation().getDegrees(),
         targetPose.getRotation().getRadians());
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
     m_drivetrain.swerveDrive.drive(new ChassisSpeeds(xSpeed * 0.01, ySpeed * 0.01, thetaSpeed * 0.01));
 
     // prints
-    SmartDashboard.putNumber("deltax", targetPose.getX() - m_drivetrain.getX());
-    SmartDashboard.putNumber("deltay", targetPose.getY() - m_drivetrain.getY());
-    SmartDashboard.putNumber("deltatheta",
-        targetPose.getRotation().getDegrees() - m_drivetrain.getRotation().getDegrees());
+    // SmartDashboard.putNumber("deltax", targetPose.getX() - m_drivetrain.getX());
+    // SmartDashboard.putNumber("deltay", targetPose.getY() - m_drivetrain.getY());
+    // SmartDashboard.putNumber("deltatheta",
+    // targetPose.getRotation().getDegrees() -
+    // m_drivetrain.getRotation().getDegrees());
   }
 
   @Override

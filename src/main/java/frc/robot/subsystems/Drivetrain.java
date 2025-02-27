@@ -563,18 +563,6 @@ public class Drivetrain extends SubsystemBase {
     return index;
   }
 
-  public double getX() {
-    return m_poseEstimator.getEstimatedPosition().getX();
-  }
-
-  public double getY() {
-    return m_poseEstimator.getEstimatedPosition().getY();
-  }
-
-  public Rotation2d getRotation() {
-    return m_poseEstimator.getEstimatedPosition().getRotation();
-  }
-
   @Override
   public void periodic() {
     updateOdometry();
