@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -23,10 +25,10 @@ public class MoveToPose extends Command {
    *
    * @param targetPose the target position of the robot
    */
-  public MoveToPose(Drivetrain drivetrain, Pose2d targetPose) {
+  public MoveToPose(Drivetrain drivetrain, Supplier<Pose2d> targetPose) {
     addRequirements(drivetrain);
     m_drivetrain = drivetrain;
-    this.targetPose = targetPose;
+    this.targetPose = targetPose.get();
   }
 
   @Override

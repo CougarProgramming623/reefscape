@@ -105,11 +105,13 @@ public class RobotContainer {
     navxResetButton.onTrue(Commands.runOnce(m_drivetrain::zeroGyro));
 
     toPoseButton1.toggleOnTrue(
-        new MoveToPose(m_drivetrain, new Pose2d(m_drivetrain.getPose().getX() - 1, m_drivetrain.getPose().getY() - 1,
-            m_drivetrain.getPose().getRotation().plus(new Rotation2d(Math.PI)))));
+        new MoveToPose(m_drivetrain,
+            () -> new Pose2d(m_drivetrain.getPose().getX() - 1, m_drivetrain.getPose().getY() - 1,
+                m_drivetrain.getPose().getRotation().plus(new Rotation2d(Math.PI)))));
     toPoseButton2.toggleOnTrue(
-        new MoveToPose(m_drivetrain, new Pose2d(m_drivetrain.getPose().getX() + 1, m_drivetrain.getPose().getY() + 1,
-            m_drivetrain.getPose().getRotation().plus(new Rotation2d(Math.PI)))));
+        new MoveToPose(m_drivetrain,
+            () -> new Pose2d(m_drivetrain.getPose().getX() + 1, m_drivetrain.getPose().getY() + 1,
+                m_drivetrain.getPose().getRotation().plus(new Rotation2d(Math.PI)))));
 
     // Add this to configureBindings()
     Trigger testCommandTrigger = new Trigger(() -> m_joystick.getRawButton(5)); // or use another unused button
