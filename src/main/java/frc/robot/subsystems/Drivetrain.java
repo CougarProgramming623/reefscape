@@ -548,8 +548,20 @@ public class Drivetrain extends SubsystemBase {
     swerveDrive.setMotorIdleMode(brake);
   }
 
-  public int closestAprilTag() {
-    double min = Math
+  public int closestAprilTag(AT[] aprilTags) {
+    double min = Math.sqrt(Math.pow(m_poseEstimator.getEstimatedPosition().getX() - aprilTags[0].getPose().getX(), 2)
+                         + Math.pow(m_poseEstimator.getEstimatedPosition().getY() - aprilTags[0].getPose().getY(), 2));
+    int aprilTagID = aprilTags[0].getId();
+    for(AT at: aprilTags)
+    {
+      if (Math.sqrt(Math.pow(m_poseEstimator.getEstimatedPosition().getX() - at.getPose().getX(), 2) + Math.pow(m_poseEstimator.getEstimatedPosition().getY() - at.getPose().getY(), 2)) < min) {
+        min = Math
+            .sqrt(Math.pow(m_poseEstimator.getEstimatedPosition().getX() - at.getPose().getX(), 2)
+                + Math.pow(m_poseEstimator.getEstimatedPosition().getY() - at.getPose().getY(), 2));
+        aprilTagID = at.getId();
+    }
+  }
+    /*double min = Math
         .sqrt(Math.pow(m_poseEstimator.getEstimatedPosition().getX() - Constants.aprilPose[1].getPose().getX(), 2)
             + Math.pow(m_poseEstimator.getEstimatedPosition().getY() - Constants.aprilPose[1].getPose().getY(), 2));
     int index = 0;
@@ -563,11 +575,22 @@ public class Drivetrain extends SubsystemBase {
         index = i;
       }
     }
-    return index;
+    return index;*/
+    return aprilTagID;
   }
 
-  public void toClosestAprilTag() {
-    toPose(Constants.aprilPose[closestAprilTag()].getOffestPose());
+  public void toClosestScoringAprilTag() {
+    //System.out.println("//////////" + "\n" + "Closest April Tag: " + closestAprilTag() + "\n" + "//////////");
+    System.out.println("//////////" + "\n" + closestAprilTag(Constants.scoringAprilPose)  + "Closest April Tag" + "\n" + "//////////");
+    toPose(Constants.aprilPose[closestAprilTag(Constants.scoringAprilPose)].getOffestPose());
+  }
+
+  public void toClosestPickupAprilTag(){
+    System.out.println("//////////" + "\n" + closestAprilTag(Constants.pickupAprilPose)  + "Closest April Tag" + "\n" + "//////////");
+    //toPose(Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getOffestPose());
+    System.out.println(getX() + ", " + getY());
+    System.out.println(Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getPose().getX() + ", " + Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getPose().getY());
+    System.out.println(Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getOffestPose().getX() + ", " + Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getOffestPose().getY());
   }
 
   public double getX() {

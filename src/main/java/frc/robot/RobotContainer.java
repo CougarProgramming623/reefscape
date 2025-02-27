@@ -49,6 +49,8 @@ public class RobotContainer {
   private Trigger navxResetButton = new Trigger(() -> m_joystick.getRawButton(3));
   private Trigger toPoseButton1 = new Trigger(() -> m_joystick.getRawButton(1)); // Work in Progress - Horatio
   private Trigger toPoseButton2 = new Trigger(() -> m_joystick.getRawButton(2)); // Work in Progress - Horatio
+  private Trigger toClosestScoringAprilTag = new Trigger(() -> m_joystick.getRawButton(4)); // Work in Progress - Horatio
+  private Trigger toClosestPickupAprilTag = new Trigger(() -> m_joystick.getRawButton(5)); // Work in Progress - Horatio
   //private Trigger zeroWheels = new Trigger(() -> m_joystick.getRawButton(2));
   // feeder motor
   private TalonSRX feederMotor = new TalonSRX(22);
@@ -108,6 +110,9 @@ public class RobotContainer {
 
     toPoseButton1.onTrue(Commands.runOnce(() -> m_drivetrain.toPose(new Pose2d(m_drivetrain.getX() - 1, m_drivetrain.getY() - 1, m_drivetrain.getRotation().plus(new Rotation2d(Math.PI))))));
     toPoseButton2.onTrue(Commands.runOnce(() -> m_drivetrain.toPose(new Pose2d(m_drivetrain.getX() + 1, m_drivetrain.getY() + 1, m_drivetrain.getRotation().plus(new Rotation2d(Math.PI))))));
+
+    toClosestScoringAprilTag.onTrue(Commands.runOnce(() -> m_drivetrain.toClosestScoringAprilTag()));
+    toClosestPickupAprilTag.onTrue(Commands.runOnce(() -> m_drivetrain.toClosestPickupAprilTag()));
     // zeroWheels.onTrue(Commands.runOnce(m_drivetrain::zeroWheels));
     // inputSpin.whileTrue(spinFeederCommand);
 
