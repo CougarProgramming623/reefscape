@@ -115,7 +115,8 @@ public class Drivetrain extends SubsystemBase {
   // variables here
   public final SwerveDrivePoseEstimator m_poseEstimator;
 
-  public final double radiusOfRotation = 2;// Used for toAprilTag to find radius of rotation around the reef
+  public final double radiusOfRotation = 1.2;// Used for toAprilTag to find radius of rotation around the reef
+                                             // 1.2 ~= the distance from reef center to surrounding tape
 
   /** Creates a new ExampleSubsystem. */
   public Drivetrain(File directory) {
