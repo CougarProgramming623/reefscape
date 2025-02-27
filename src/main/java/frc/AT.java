@@ -13,10 +13,10 @@ public class AT{
     {
         double x = xIn / 39.3701;
         double y = yIn / 39.3701;
-        double theta = thetaDeg / Math.PI * 180;
+        double theta = thetaDeg * Math.PI / 180;
         this.aprilTagPose = new Pose2d(x, y, new Rotation2d(theta));
         this.offsetPose = new Pose2d(x + Constants.ANATOLI_CHASSIS_WIDTH/2 * Math.cos(theta), 
-        y + Constants.ANATOLI_CHASSIS_WIDTH/2 * Math.cos(theta), 
+        y + Constants.ANATOLI_CHASSIS_WIDTH/2 * Math.sin(theta), 
         new Rotation2d(theta + Math.PI));
         this.id = id;
     } 

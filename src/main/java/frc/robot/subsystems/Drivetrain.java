@@ -449,9 +449,10 @@ public class Drivetrain extends SubsystemBase {
     Pose2d currentPose = m_poseEstimator.getEstimatedPosition();
     if (!autoWorks)// Work in progress - Horatio
     {
-      PIDController xController = new PIDController(10, 0, 0);
-      PIDController yController = new PIDController(10, 0, 0);
-      PIDController thetaController = new PIDController(4.5, 0, 3);
+      PIDController xController = new PIDController(2, 0,0);
+                                  //new PIDController(10, 0, 0);//fine with no field element, use lesser when testing with field element
+      PIDController yController = new PIDController(2, 0,0);//new PIDController(10, 0, 0);
+      PIDController thetaController = new PIDController(2, 0, 0);//new PIDController(4.5, 0, 3);
       thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
       double xSpeed = xController.calculate(getX(), targetPose.getX());
@@ -537,7 +538,7 @@ public class Drivetrain extends SubsystemBase {
     return a;
   }
 
-  public Pose2d findB(AT aprilTag) {
+  public Pose2d findPoseB(AT aprilTag) {
     return new Pose2d(
         (aprilTag.getPose().getX() + radiusOfRotation * Math.cos(aprilTag.getPose().getRotation().getRadians())),
         (aprilTag.getPose().getY() + radiusOfRotation * Math.sin(aprilTag.getPose().getRotation().getRadians())),
@@ -587,10 +588,28 @@ public class Drivetrain extends SubsystemBase {
 
   public void toClosestPickupAprilTag(){
     System.out.println("//////////" + "\n" + closestAprilTag(Constants.pickupAprilPose)  + "Closest April Tag" + "\n" + "//////////");
-    //toPose(Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getOffestPose());
+    toPose(Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getOffestPose());
     System.out.println(getX() + ", " + getY());
     System.out.println(Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getPose().getX() + ", " + Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getPose().getY());
     System.out.println(Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getOffestPose().getX() + ", " + Constants.aprilPose[closestAprilTag(Constants.pickupAprilPose)].getOffestPose().getY());
+  }
+
+  public void toScoringAprilTag(int id, Pose2d reef) {
+    AT targetAT = Constants.aprilPose[id];
+    if(closestAprilTag(Constants.scoringAprilPose) == id)
+      toPose(targetAT.getOffestPose());
+    else
+    {
+        toPose(findPoseA(reef, targetAT));
+        double theta = findAngleRad(reef, findPoseB(targetAT));
+        while(theta > 0)
+        {
+          toPose(new Pose2d(getX(), getY(), targetAT.getOffestPose().getRotation().minus(new Rotation2d(theta))));
+          theta -= 5;
+        }
+        toPose(findPoseB(targetAT));
+        toPose(targetAT.getOffestPose());
+    }
   }
 
   public double getX() {
