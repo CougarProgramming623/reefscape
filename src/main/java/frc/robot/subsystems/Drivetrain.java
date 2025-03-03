@@ -496,8 +496,8 @@ public class Drivetrain extends SubsystemBase {
 
       path.preventFlipping = true; // Prevent the path from being flipped if the coordinates are already correct
 
+      AutoBuilder.followPath(path).addRequirements(this);
       AutoBuilder.followPath(path).schedule();
-
       return path;
   }
   // waypoints will always have

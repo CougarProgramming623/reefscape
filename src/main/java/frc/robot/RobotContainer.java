@@ -47,7 +47,7 @@ public class RobotContainer {
   // Triggers on the joystick
   private Trigger inputSpin = new Trigger(() -> m_joystick.getRawButton(6));
   private Trigger navxResetButton = new Trigger(() -> m_joystick.getRawButton(3));
-  private Trigger toPoseButton1 = new Trigger(() -> m_joystick.getRawButton(1)); // Work in Progress - Horatio
+  // private Trigger toPoseButton1 = new Trigger(() -> m_joystick.getRawButton(1)); // Work in Progress - Horatio
   private Trigger toPoseButton2 = new Trigger(() -> m_joystick.getRawButton(2)); // Work in Progress - Horatio
   private Trigger toClosestScoringAprilTag = new Trigger(() -> m_joystick.getRawButton(4)); // Work in Progress - Horatio
   private Trigger toClosestPickupAprilTag = new Trigger(() -> m_joystick.getRawButton(5)); // Work in Progress - Horatio
@@ -96,7 +96,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  Pose2d test = new Pose2d(2.0, 0.0, new Rotation2d(0.0));
+  Pose2d test = new Pose2d(0.0, 0.0, new Rotation2d(Math.toRadians(180)));
 
   private void configureBindings() {
     m_drivetrain.setDefaultCommand(m_drivetrain.driveCommand(() -> m_joystick.getRawAxis(1) * -1,
@@ -108,8 +108,9 @@ public class RobotContainer {
     //toPoseButton1.onTrue(Commands.runOnce(() -> m_drivetrain.driveToPose(test)));
     // toPoseButton1.onTrue(Commands.runOnce(() -> AutoBuilder.followPath(m_drivetrain.driveToPose(test))));
 
-    toPoseButton1.onTrue(Commands.runOnce(() -> m_drivetrain.toPose(new Pose2d(m_drivetrain.getX() - 1, m_drivetrain.getY() - 1, m_drivetrain.getRotation().plus(new Rotation2d(Math.PI))))));
-    toPoseButton2.onTrue(Commands.runOnce(() -> m_drivetrain.toPose(new Pose2d(m_drivetrain.getX() + 1, m_drivetrain.getY() + 1, m_drivetrain.getRotation().plus(new Rotation2d(Math.PI))))));
+    // toPoseButton1.onTrue(Commands.runOnce(() -> m_drivetrain.toPose(new Pose2d(m_drivetrain.getX() - 1, m_drivetrain.getY() - 1, m_drivetrain.getRotation().plus(new Rotation2d(Math.PI))))));
+    // toPoseButton2.onTrue(Commands.runOnce(() -> m_drivetrain.toPose(new Pose2d(m_drivetrain.getX() + 1, m_drivetrain.getY() + 1, m_drivetrain.getRotation().plus(new Rotation2d(Math.PI))))));
+    toPoseButton2.onTrue(Commands.runOnce(() -> m_drivetrain.driveToPose(test)));
 
     toClosestScoringAprilTag.onTrue(Commands.runOnce(() -> m_drivetrain.toClosestScoringAprilTag()));
     toClosestPickupAprilTag.onTrue(Commands.runOnce(() -> m_drivetrain.toClosestPickupAprilTag()));
